@@ -355,4 +355,204 @@ var_dump($arr);
   'b' => string 'boy' (length=3)
   'c' => string 'class' (length=5)*/
 
-//数组排序
+//数组排序逆置数组元素顺序array_reverse()
+$arr = array('a'=>'age','b'=>'boy','c'=>'class');
+$arr = array_reverse($arr);
+var_dump($arr);
+/*array (size=3)
+  'c' => string 'class' (length=5)
+  'b' => string 'boy' (length=3)
+  'a' => string 'age' (length=3)*/
+//数组键名键值互换
+$arr = array('a'=>'age','b'=>'boy','c'=>'class');
+$arr = array_flip($arr);
+var_dump($arr);
+/*array (size=3)
+  'age' => string 'a' (length=1)
+  'boy' => string 'b' (length=1)
+  'class' => string 'c' (length=1)*/
+//数组排序sort()由低到高 不保持键对值
+$arr = array('a'=>'age','c'=>'class','b'=>'boy');
+sort($arr);
+print_r($arr);//Array ( [0] => age [1] => boy [2] => class )
+echo "<br>";
+$arr = array('1','3','80','23','65','12');
+sort($arr);
+print_r($arr);// Array ( [0] => 1 [1] => 3 [2] => 12 [3] => 23 [4] => 65 [5] => 80 )
+echo "<br>";
+//保持键值对对数组排序asort()由低到高
+$arr = array('a'=>'age','c'=>'class','b'=>'boy');
+asort($arr);
+print_r($arr);//Array ( [a] => age [b] => boy [c] => class )
+echo "<br>";
+//逆序排序rsort()不保持键对值
+$arr = array('a'=>'age','c'=>'class','b'=>'boy');
+rsort($arr);
+print_r($arr);//Array ( [0] => class [1] => boy [2] => age )
+echo "<br>";
+//逆序排序arsort()保持键对值
+$arr = array('a'=>'age','c'=>'class','b'=>'boy');
+arsort($arr);
+print_r($arr);//Array ( [c] => class [b] => boy [a] => age )
+echo "<br>";
+//数组自然排序natsort() 区分大小写
+$arr = array('a'=>'a1','c'=>'a5','e'=>'a2','d'=>'a9','b'=>'a3');
+natsort($arr);
+print_r($arr);//Array ( [a] => a1 [b] => a2 [e] => a3 [c] => a5 [d] => a9 )
+echo "<br>";
+$arr = array('a'=>'a1','c'=>'A5','b'=>'a2','d'=>'a9','e'=>'A3');
+natsort($arr);
+print_r($arr);//Array ( [e] => A3 [c] => A5 [a] => a1 [b] => a2 [d] => a9 )
+echo '<br/>';
+//不区分大小写自然排序natcasesort()
+$arr = array('a'=>'a1','c'=>'A5','b'=>'a2','d'=>'a9','e'=>'A3');
+natcasesort($arr);
+print_r($arr);//Array ( [a] => a1 [b] => a2 [e] => A3 [c] => A5 [d] => a9 )
+echo '<br/>';
+//按键值进行数组排序ksort()升序
+$arr = array('a'=>'a1','c'=>'a5','e'=>'a2','d'=>'a9','b'=>'a3');
+ksort($arr);
+print_r($arr);//Array ( [a] => a1 [b] => a3 [c] => a5 [d] => a9 [e] => a2 )
+echo "<br/>";
+//按键值进行数组排序krsort()降序
+$arr = array('a'=>'a1','c'=>'a5','e'=>'a2','d'=>'a9','b'=>'a3');
+krsort($arr);
+print_r($arr);//Array ( [e] => a2 [d] => a9 [c] => a5 [b] => a3 [a] => a1 )
+echo "<br/>";
+//usort()用户自定义排序usort(数组,自定义排序方法)
+$date = array('10-11-2010','1-12-2010','11-12-2016','11-12-2013','1-16-2011','11-12-2009','1-16-2011');
+function datesortasc($a,$b)
+{
+    if($a == $b ) return;//日期相等什么也不做
+    //反编汇日期
+    list($amonth,$adays,$ayears) = explode('-',$a);
+    list($bmonth,$bdays,$byears) = explode('-',$b);
+    //如果没有前导0则给月份加0
+    $amonth = str_pad($amonth,'2','0',STR_PAD_LEFT);
+    $bmonth = str_pad($bmonth,'2','0',STR_PAD_LEFT);
+    //如果没有前导0则给日份加0
+    $adays = str_pad($adays,'2','0',STR_PAD_LEFT);
+    $bdays = str_pad($bdays,'2','0',STR_PAD_LEFT);
+    //重组日期
+    $a = $ayears.$amonth.$adays;
+    $b = $byears.$bmonth.$bdays;
+    return ($a > $b) ? 1 : 0;
+
+
+}
+
+usort($date,'datesortasc');
+print_r($date);
+//Array ( [0] => 11-12-2009 [1] => 1-12-2010 [2] => 10-11-2010 [3] => 1-16-2011 [4] => 1-16-2011 [5] => 11-12-2013 [6] => 11-12-2016 )
+echo '<br/>';
+function datesortdesc($a,$b)
+{
+    if($a == $b ) return;//日期相等什么也不做
+    //反编汇日期
+    list($amonth,$adays,$ayears) = explode('-',$a);
+    list($bmonth,$bdays,$byears) = explode('-',$b);
+    //如果没有前导0则给月份加0
+    $amonth = str_pad($amonth,'2','0',STR_PAD_LEFT);
+    $bmonth = str_pad($bmonth,'2','0',STR_PAD_LEFT);
+    //如果没有前导0则给日份加0
+    $adays = str_pad($adays,'2','0',STR_PAD_LEFT);
+    $bdays = str_pad($bdays,'2','0',STR_PAD_LEFT);
+    //重组日期
+    $a = $ayears.$amonth.$adays;
+    $b = $byears.$bmonth.$bdays;
+    return ($a < $b) ? 1 : 0;
+
+
+}
+usort($date,'datesortdesc');
+print_r($date);
+//Array ( [0] => 11-12-2016 [1] => 11-12-2013 [2] => 1-16-2011 [3] => 1-16-2011 [4] => 10-11-2010 [5] => 1-12-2010 [6] => 11-12-2009 )
+echo '<br/>';
+//数组合并 array_merge() 覆盖前一个数组中键名已存在的键值
+$arr1 = array('a'=>'a1','c'=>'a5','e'=>'a2');
+$arr2 = array('a'=>'age','c'=>'class','b'=>'boy');
+$new_arr = array_merge($arr1,$arr2);
+print_r($new_arr);
+//Array ( [a] => age [c] => class [e] => a2 [b] => boy )
+echo '<br/>';
+//递归追加数组 array_merge_recursive()
+$arr1 = array('a'=>'a1','c'=>'a5','e'=>'a2');
+$arr2 = array('a'=>'age','c'=>'class','b'=>'boy');
+$new_arr = array_merge_recursive($arr1,$arr2);
+print_r($new_arr);
+//Array ( [a] => Array ( [0] => a1 [1] => age ) [c] => Array ( [0] => a5 [1] => class ) [e] => a2 [b] => boy )
+echo '<br/>';
+//合并两个数组 array_combine() 数组必须元素个数相同
+$arr1 = array('a'=>'a1','c'=>'a5','e'=>'a2');
+$arr2 = array('a'=>'age','c'=>'class','b'=>'boy');
+$new_arr = array_combine($arr1,$arr2);
+print_r($new_arr);//Array ( [a1] => age [a5] => class [a2] => boy )
+echo '<br/>';
+//拆分数组array_slice()
+$arr = array('a'=>'a1','c'=>'a5','e'=>'a2','d'=>'a9','b'=>'a3');
+$new_arr = array_slice($arr,3);
+print_r($arr);//Array ( [a] => a1 [c] => a5 [e] => a2 [d] => a9 [b] => a3 )
+echo '<br/>';
+print_r($new_arr);//Array ( [d] => a9 [b] => a3 )
+echo '<br/>';
+//接合数组array_splice()
+$arr = array('a'=>'a1','c'=>'a5','e'=>'a2','d'=>'a9','b'=>'a3');
+$new_arr = array_splice($arr,3);
+print_r($new_arr);//Array ( [d] => a9 [b] => a3 )
+echo '<br/>';
+print_r($arr);//Array ( [a] => a1 [c] => a5 [e] => a2 )
+echo '<br/>';
+$arr = array('a'=>'a1','c'=>'a5','e'=>'a2','d'=>'a9','b'=>'a3');
+$new_arr = array_splice($arr,3,-1,array('wo','rt'));
+print_r($new_arr);//Array ( [d] => a9 )
+echo '<br/>';
+print_r($arr);//Array ( [a] => a1 [c] => a5 [e] => a2 [0] => wo [1] => rt [b] => a3 )
+echo '<br/>';
+//数组的交集array_intersect()
+$arr = array('a'=>'a1','f'=>'a5','e'=>'a2','d'=>'a9','b'=>'a3');
+$arr1 = array('a'=>'a1','c'=>'a5','e'=>'a2');
+$res = array_intersect($arr,$arr1);
+print_r($res);//Array ( [a] => a1 [c] => a5 [e] => a2 )
+echo '<br/>';
+//关联数组的交集array_intersect_assoc()
+$arr = array('a'=>'a1','f'=>'a5','e'=>'a2','d'=>'a9','b'=>'a3');
+$arr1 = array('a'=>'a1','c'=>'a5','e'=>'a2');
+$res = array_intersect_assoc($arr,$arr1);
+print_r($res);//Array ( [a] => a1 [e] => a2 )
+echo '<br/>';
+//求数组的差集array_diff()
+$arr = array('a'=>'a1','f'=>'a5','e'=>'a2','d'=>'a9','b'=>'a3');
+$arr1 = array('a'=>'a1','c'=>'a5','e'=>'a2');
+$arr2 = array('b'=>'a3');
+$res = array_diff($arr,$arr1,$arr2);
+print_r($res);//Array ( [d] => a9 )
+echo '<br/>';
+//求关联数组的差集array_diff_assoc()
+$arr = array('a'=>'a1','f'=>'a5','e'=>'a2','d'=>'a9','b'=>'a3');
+$arr1 = array('a'=>'a1','c'=>'a5','e'=>'a2');
+$arr2 = array('b'=>'a3');
+$res = array_diff_assoc($arr,$arr1,$arr2);
+print_r($res);// Array ( [f] => a5 [d] => a9 )
+echo '<br/>';
+//获取数组中的随机键名array_rand()
+$arr = array('a'=>'a1','f'=>'a5','e'=>'a2','d'=>'a9','b'=>'a3');
+$res = array_rand($arr,2);
+print_r($res);//随机的键名 Array ( [0] => a [1] => b )
+echo '<br/>';
+//获取数组的随机洗牌的元素shuffle()
+$arr = array('a'=>'a1','f'=>'a5','e'=>'a2','d'=>'a9','b'=>'a3');
+$res = shuffle($arr);
+print_r($res);//1
+echo '<br/>';
+print_r($arr);//Array ( [0] => a9 [1] => a3 [2] => a1 [3] => a2 [4] => a5 )
+echo '<br/>';
+//数组求和array_sum()只求数值的和
+$arr = array('a'=>'23','f'=>'a5','e'=>'32','d'=>'43','b'=>'a3');
+$res =  array_sum($arr);
+print_r($res);//98
+echo '<br/>';
+//分割数组array_chunk()
+$arr = array('a'=>'a1','f'=>'a5','e'=>'a2','d'=>'a9','b'=>'a3');
+$res = array_chunk($arr,2);
+print_r($res);
+//Array ( [0] => Array ( [0] => a1 [1] => a5 ) [1] => Array ( [0] => a2 [1] => a9 ) [2] => Array ( [0] => a3 ) )
